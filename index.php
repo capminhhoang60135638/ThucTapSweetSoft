@@ -10,15 +10,27 @@
         <title>Trang chủ</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        
+        
+        <link rel="stylesheet" type="text/css" href="include/css/bootstrap.css">
+        <script type="text/javascript" src="include/js/bootstrap.js"></script>
     </head>
     <body>
+      
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <?php include "View/header.php"?>
-        <?php echo "Noi dung"?>
-        <?php include "View/footer.php"?>
+        <?php include "View/header_footer/header.php"?>
+        <div class="row">
+            
+			<?php
+      //kiểm tra nếu tồn tại biến $_GET["page"] = "register" thì gọi register.php vào
+			if(isset($_GET["page"]) && $_GET["page"] == "register")
+				include "View/login/register.php";
+			?>
+        </div>
+
+        <?php include "View/header_footer/footer.php"?>
         <script src="" async defer></script>
     </body>
 </html>
