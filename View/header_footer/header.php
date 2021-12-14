@@ -71,7 +71,7 @@ img{
     <a class="active" href="#home">Home</a>
     <a href="#contact">Contact</a>
     <a href="#about">About</a>
-    <a href="index.php?page=register" class="btn btn-success">Đăng ký</a>
+    <a href="index.php?page=register" class="btn">Đăng ký</a>
     
 		</div>
   </div>

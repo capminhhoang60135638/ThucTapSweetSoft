@@ -27,7 +27,7 @@
                     <td><input type="text" name="sdt" value="" placeholder="Số điện thoại"></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><button type="submit">Gửi</button></td>
+                    <td colspan="2" ><button type="submit">Gửi</button></td>
                 </tr>
             </table>
             
