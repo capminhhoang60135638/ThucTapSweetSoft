@@ -49,11 +49,7 @@ session_start();
                 width: 100px;
                 height: 70px;
             }
-            .login{
-                background-color: burlywood;
-                width: 400px;
-                height: 150px;
-            }
+            
             form{
                 
                 position: absolute;
@@ -61,13 +57,29 @@ session_start();
                 top: 50%;
                 transform: translate(-50%, -50%);
             }
+            fieldset{
+                background-color:#CCC;
+                width:500px;
+                height: 200px;
+                padding:16px;
+                border-radius: 20px;	
+            }
+            legend{
+                margin-bottom:0px;
+                margin-left:16px;
+                color: whitesmoke;
+            }
+            
             table{
                 position: absolute;
                 left: 50%;
                 top: 50%;
                 transform: translate(-50%, -50%);
+                width: 450px;
             }
-            
+            p{
+                color: red;
+            }
 
             
 
@@ -76,7 +88,7 @@ session_start();
     
     <body>
     <?php
-    $str="";
+    $str=NULL;
 	//Gọi file connection.php ở bài trước
 	require_once("../../../Controller/connect.php");
 	// Kiểm tra nếu người dùng đã ân nút đăng nhập thì mới xử lý
@@ -91,14 +103,15 @@ session_start();
 		$password = strip_tags($password);
 		$password = addslashes($password);
 		if ($username == "" || $password =="") {
-			echo "username hoặc password bạn không được để trống!";
+			$str="username hoặc password bạn không được để trống!!!";
 		}else{
 			$sql = "select user_id from taikhoan where username = '$username' and password = '$password' ";
 			$query = mysqli_query($conn,$sql);
             $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
             
 			if ($row==0) {
-				$str="tên đăng nhập hoặc mật khẩu không đúng !";
+				$str="tên đăng nhập hoặc mật khẩu không đúng !!!";
+               
 			}
             else{
                 $user_id=$row["user_id"];
@@ -114,6 +127,9 @@ session_start();
                     // ở đây mình tiến hành chuyển hướng trang web tới một trang gọi là index.php
                     header('Location: admin_index.php');
                 }
+                else{
+                    $str = "Bạn không phải admin!!!";
+                }
 			}
 		}
 	}
@@ -121,25 +137,28 @@ session_start();
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <?php include "../header_footer/header.php"?>
+        <?php include "../header_footer/header_login.php"?>
         <form method="POST" action="">
 	<fieldset>
 	    <legend>Đăng nhập</legend>
 	    	<table>
 	    		<tr>
-	    			<td>Username</td>
+	    			<th>Username</th>
 	    			<td><input type="text" name="username" size="30"></td>
 	    		</tr>
 	    		<tr>
-	    			<td>Password</td>
+	    			<th>Password</th>
 	    			<td><input type="password" name="password" size="30"></td>
 	    		</tr>
 	    		<tr>
 	    			<td colspan="2" align="center"> <input type="submit" name="btn_submit" value="Đăng nhập"><input type="submit" name="btn_forgot" value="Quên mật khẩu"></td>
 	    		</tr>
+                <tr>
+                    <td colspan="2" align="center"><?php if($str!=NULL) echo "<p>".$str."</p>";?> </td>
+                </tr>
 	    	</table>
   </fieldset>
-  <?php if($str!="") echo "<script type='text/javascript'>alert('$str');</script>";?>
+  
   </form>
         <script src="" async defer></script>
     </body>

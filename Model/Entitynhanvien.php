@@ -12,5 +12,14 @@
             $this->nhanvien_loai=$loai;
             $this->user_id=$user_id;
         }
+        public function edit($id,$ho,$ten,$sdt,$gt,$loai,$user_id){
+            $this->nhanvien_id=$id;
+            $this->nhanvien_ho=$ho;
+            $this->nhanvien_ten=$ten;
+            $this->nhanvien_sdt=$sdt;
+            $this->nhanvien_gioitinh=$gt;
+            $this->nhanvien_loai=$loai;
+            $this->user_id=$user_id;
+        }
     }
 ?>

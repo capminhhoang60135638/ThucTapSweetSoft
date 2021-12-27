@@ -1,13 +1,4 @@
-<?php
-session_start();
-//tiến hành kiểm tra là người dùng đã đăng nhập hay chưa
-//nếu chưa, chuyển hướng người dùng ra lại trang đăng nhập
-if (!isset($_SESSION['username'])) 
-	 header('Location: admin_login.php');
 
-
-
-?>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->

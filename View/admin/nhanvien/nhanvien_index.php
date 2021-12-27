@@ -1,11 +1,4 @@
-<?php
-session_start();
-//tiến hành kiểm tra là người dùng đã đăng nhập hay chưa
-//nếu chưa, chuyển hướng người dùng ra lại trang đăng nhập
-if (!isset($_SESSION['username'])) {
-	 header('Location: admin_login.php');
-}
-?>
+
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -19,7 +12,7 @@ if (!isset($_SESSION['username'])) {
         <title>Trang chủ admin</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+       
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -40,7 +33,7 @@ if (!isset($_SESSION['username'])) {
             li{
                 float: left;
             }
-            li,a, .dropbtn{
+            li, .dropbtn{
                 display: inline-block;
                 
                 text-align: center;
@@ -56,11 +49,11 @@ if (!isset($_SESSION['username'])) {
                 width: 100px;
                 height: 70px;
             }
-            .login{
+            /* .login{
                 background-color: burlywood;
                 width: 400px;
                 height: 150px;
-            }
+            } */
             form{
                 
                 position: absolute;
@@ -69,18 +62,14 @@ if (!isset($_SESSION['username'])) {
                 transform: translate(-50%, -50%);
             }
             table{
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
+               background-color: snow;
             }
             
-            .container{
-                
-                width: 100%;
-                background-color: wheat ;
-            }
             
+            
+            a{
+                color: blue;
+            }
 
         </style>
     </head>
@@ -90,44 +79,58 @@ if (!isset($_SESSION['username'])) {
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div class="container">
-            <div class="row">
-                
-                    <ul>
-                        <li><img src="../image/logobank.png"></li>
-                        <li><a href="../admin_index.php">Trang chủ</a></li>
-                        <li><a href="">Nhân viên</a></li>
-                
-                        <li><a href="../khachhang/khachhang_index.php">Khách Hàng</a></li>
-                        <li><a href="../hoadon/hoadon_index.php">Hóa đơn</a></li>
-                        <li><a href="../account/account_index.php">Account</a></li>
-
-                    </ul>
-                
-                
-            </div>
-
-        </div>
+        <?php include "../header_footer/header.php"?>
        
         <div>
+            <?php include"../../../Controller/getAllNhanVien.php"?>
         <form>
-            <table>
-                <tr>
-                    <td></td>
-                </tr>
-            </table>
+        <a href="addnhanvien.php">Thêm thành viên</a>
+<table border="1px;" align="center">
+	<thead>
+		<tr>
+			<td bgcolor="#E6E6FA">ID</td>
+			<td bgcolor="#E6E6FA">Họ</td>
+			<td bgcolor="#E6E6FA">Tên</td>
+			<td bgcolor="#E6E6FA">Số điện thoại</td>
+			<td bgcolor="#E6E6FA">Giới tính</td>
+			<td bgcolor="#E6E6FA">Chức vụ</td>
+            <td bgcolor="#E6E6FA">Ảnh đại diện</td>
+		<tr>
+	</thead>
+	<tbody>
+	<?php
+    	$i = 1; 
+		while ( $data = mysqli_fetch_array($result) ) {
+		
+			$id = $data['nhanvien_id'];
+	?>
+		<tr>
+			<td><?php echo $i; ?></td>
+			<td><?php echo $data['nhanvien_ho']; ?></td>
+			<td><?php echo $data['nhanvien_ten']; ?></td>
+			<td><?php echo $data['nhanvien_sdt']; ?></td>
+			<td><?php echo ($data['nhanvien_gioitinh'] == 1) ? "Nam" : "Nữ"; ?></td>
 
-            <?php 
-            include("../../../Controller/getAllNhanVien.php");
-            if($result->num_rows>0){
-                while($row = $result->fetch_assoc()){
-                    
-                }
-            }
-                         
+
             
+            <td><?php echo $data['tenloainv'];?></td>
             
-            ?>
+
+
+
+            <td><?php echo $data['anh'];?></td>
+			<td>
+				<a href="editnhanvien.php?id=<?php echo $id;?>">Sửa</a>
+                <a href="#quan-ly-thanh-vien.php?id_delete=<?php echo $id;?>">Xóa</a>
+				
+			</td>
+		</tr>
+	<?php 
+			$i++;
+		}
+	?>
+	</tbody>
+</table>
            </form>
         </div>
         <script src="" async defer></script>
