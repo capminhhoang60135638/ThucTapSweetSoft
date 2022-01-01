@@ -21,7 +21,7 @@ session_start();
         
         <style>
             body{
-                background-image: url("image/backgroundbank.png");
+                background-image: url("../image/backgroundbank.png");
                 background-size: cover;
             }
             ul{
@@ -67,7 +67,7 @@ session_start();
             legend{
                 margin-bottom:0px;
                 margin-left:16px;
-                color: whitesmoke;
+                color: indigo;
             }
             
             table{
@@ -89,7 +89,7 @@ session_start();
     <body>
     <?php
     $str=NULL;
-	//Gọi file connection.php ở bài trước
+	//Gọi file connection.php
 	require_once("../../../Controller/connect.php");
 	// Kiểm tra nếu người dùng đã ân nút đăng nhập thì mới xử lý
 	if (isset($_POST["btn_submit"])) {
@@ -105,7 +105,7 @@ session_start();
 		if ($username == "" || $password =="") {
 			$str="username hoặc password bạn không được để trống!!!";
 		}else{
-			$sql = "select user_id from taikhoan where username = '$username' and password = '$password' ";
+			$sql = "select user_id,username,password, tenloainv from taikhoan tk JOIN nhanvien nv join nhanvien_loainv nv_lnv JOIN loainhanvien lnv where nv.nhanvien_id=nv_lnv.nhanvien_id and nv_lnv.loainv_id=lnv.maloainv and nv.nhanvien_id=tk.user_id and username = '$username' and password = '$password' ";
 			$query = mysqli_query($conn,$sql);
             $row = mysqli_fetch_array($query,MYSQLI_ASSOC);
             
@@ -115,10 +115,8 @@ session_start();
 			}
             else{
                 $user_id=$row["user_id"];
-                 $loainv= "select nhanvien_loai from nhanvien where nhanvien_id = '$user_id'";
-                 $queryloainv = mysqli_query($conn,$loainv);
-                 $rowloainv = mysqli_fetch_array($queryloainv,MYSQLI_ASSOC);
-                if($rowloainv["nhanvien_loai"]=="NV01")
+                 $loainv= $row["tenloainv"];
+                if($loainv=="Admin")
                 {
 				    //tiến hành lưu tên đăng nhập vào session để tiện xử lý sau này
 				    $_SESSION['username'] = $username;
@@ -137,7 +135,7 @@ session_start();
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <?php include "../header_footer/header_login.php"?>
+        
         <form method="POST" action="">
 	<fieldset>
 	    <legend>Đăng nhập</legend>
@@ -160,6 +158,7 @@ session_start();
   </fieldset>
   
   </form>
+  <?include "../../../Controller/disconnect.php"?>
         <script src="" async defer></script>
     </body>
 </html>

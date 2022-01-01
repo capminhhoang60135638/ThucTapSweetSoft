@@ -1,4 +1,7 @@
+<?php
+session_start();
 
+?>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -28,8 +31,16 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <?php header ("Location: ../nhanvien/nhanvien_index.php");?>
-       
+        <?php 
+        if(!isset($_SESSION['username']))
+        {
+        header ("Location: admin_login.php");
+        }
+        else
+        {
+        header ("Location: ../nhanvien/nhanvien_index.php");
+        }
+        ?>
        
         <script src="" async defer></script>
     </body>

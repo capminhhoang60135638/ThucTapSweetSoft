@@ -1,5 +1,10 @@
 <?php
-
+$ho=null;$ten=null;$sdt=null;$gt=null;$loai=null;$username=null;$password=null;
+if(isset($_POST['Confirm']))
+{
+    
+    header('Location: ../php/xuly_editnhanvien.php');
+}
 if(isset($_POST['Cancel']))
 {
     header('Location: nhanvien_index.php');
@@ -7,19 +12,23 @@ if(isset($_POST['Cancel']))
 if(isset($_GET['id']))
 {
     include "../../../Controller/connect.php";
-    $nv= "select * from nhanvien nv, loainhanvien lnv, taikhoan tk where nv.nhanvien_loai=lnv.maloainv and nv.nhanvien_id='{$_GET['id']}' and nv.user_id=tk.user_id";
+    $sql_nv = "select nhanvien_ho, nhanvien_ten, nhanvien_sdt, nhanvien_gioitinh, username, password, loainv_id from nhanvien nv join taikhoan tk join nhanvien_loainv nv_lnv join loainhanvien lnv where nv.nhanvien_id=tk.user_id and nv.nhanvien_id= nv_lnv.nhanvien_id and nv_lnv.loainv_id=lnv.maloainv and nv.nhanvien_id='{$_GET['id']}'";
+     
    //$querynv = mysqli_query($conn,$nv);
    // $row = mysqli_fetch_array($querynv,MYSQLI_ASSOC);
-    $result= mysqli_query($conn,$nv);
+    $result= mysqli_query($conn,$sql_nv);
     $data = $result -> fetch_array(MYSQLI_ASSOC);
     //$data = mysqli_fetch_array($result);
     $ho = $data['nhanvien_ho'];
     $ten = $data['nhanvien_ten'];
     $sdt = $data['nhanvien_sdt'];
     $gt = $data['nhanvien_gioitinh'];
-    $loai = $data['nhanvien_loai'];
+    $loai = $data['loainv_id'];
+   
     //anh
+    
 }
+
     ?>
 
 
@@ -54,12 +63,7 @@ if(isset($_GET['id']))
                 
                 }
             
-            #footer
-            {
-            position: absolute;
-                width: 100%;
-            height: 100px;
-            }
+          
             #form_add{
                 position: absolute;
                 top: 50%;
@@ -86,7 +90,9 @@ if(isset($_GET['id']))
         </div>
         <div id="add">
             <form method="POST" action="" id="form_add">
-                <h2>CHỈNH SỬA NHÂN VIÊN</h2>
+                <h3 align="center">CHỈNH SỬA NHÂN VIÊN </h3>
+                <fieldset>
+                    <legend>Thông tin nhân viên </legend>
                 <table>
                     <tr>
                         <th>Họ:</th>
@@ -98,53 +104,50 @@ if(isset($_GET['id']))
                     </tr>
                     <tr>
                         <th>Số điện thoại:</th>
-                        <td><input type="text" name="sdt" value="" placeholder="<?php echo $sdt?>"></td>
+                        <td><input type="text" name="sdt" value="" placeholder="<?php echo $sdt?>" ></td>
                     </tr>
                     <tr>
                         <th>Giới tính:</th>
-                        <td>
-                            <input type="radio" name="gt" value="1" <?php if($gt==1) echo "checked";?> >Nam 
-                            <input type="radio" name="gt" value="0" <?php if($gt==0) echo "checked";?> >Nữ
-                        
-                        </td>
+                        <td><input type="radio" name="gt" value="1" <?php if($gt==1) echo "checked";?> >Nam <input type="radio" name="gt" value="0" <?php if($gt==0) echo "checked";?> >Nữ</td>
 
                     </tr>
                     <tr>
                         <th>Chức vụ:</th>
                         <td>
                             <select name="lnv">
-                            
+                            <option value="">---Chọn---</option>
                             <?php 
-                                $str="";
                                 include "../../../Controller/getAllLoaiNhanVien.php";
                                 if (mysqli_num_rows($resultlnv) > 0) {
                                     // output dữ liệu trên trang
                                     while($row = $resultlnv->fetch_assoc()) {
                                        
-                                        $str.="<option value=".$row['maloainv'];
-                                        if($row['maloainv']=$loai) 
-                                            $str.=" checked".">".$row['tenloainv'];;
+                                        $t="<option value=".$row['maloainv'];
 
-                                        echo "</option>";
+                                        if($row['maloainv']==$loai)
+                                        {
+                                            $t.=" selected";
+                                        }
                                         
+                                        
+                                        $t.=">".$row['tenloainv']."</option>";
+                                        echo $t;
                                     }
                                 }
                             ?>
                             </select>
                         </td>
                     </tr>
-                    <tr>
-                            <th>Ảnh đại diện:</th>
-                            <td>
-                                <input type="file" name="image">
-                            </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" id="button_submit"><input name="Submit" type="submit" value="Chỉnh sửa">  <input type="submit" name="Cancel" value="Hủy"></td>
-                    </tr>
+                   
+                    
                 </table>
+                </fieldset>
+               
+                <div>
+                    <input name="Confirm" type="submit" value="Xác nhận"> <input type="submit" name="Cancel" value="Hủy">
+                </div>
+                
             </form>
-        
         </div>
         
         </div>

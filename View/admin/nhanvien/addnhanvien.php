@@ -1,73 +1,36 @@
 <?php
+if(isset($_POST['Add']))
+{
+    
+
+    include "../../../Controller/connect.php";
+    
+    $sql_addnhanvien= "insert into nhanvien(nhanvien_ho,nhanvien_ten,nhanvien_sdt,nhanvien_gioitinh) values ('{$_POST['ho']}','{$_POST['ten']}','{$_POST['sdt']}','{$_POST['gt']}')";
+    mysqli_query($conn,$sql_addnhanvien);
+    $sql_timmanv= "SELECT * FROM nhanvien nv ORDER BY nv.nhanvien_id DESC LIMIT 1";
+    $query_manv=mysqli_query($conn,$sql_timmanv);
+    $data = mysqli_fetch_array($query_manv);
+    $manv=$data['nhanvien_id'];
+    
+    $sql_addlnv="insert into nhanvien_loainv(nhanvien_id,loainv_id) values('$manv','".$_POST['lnv']."')";
+    mysqli_query($conn,$sql_addlnv);
+    $sql_addtaikhoan="insert into taikhoan(user_id,username,password) values('$manv','".$_POST['username']."','".$_POST['pass']."')";
+   
+    mysqli_query($conn,$sql_addtaikhoan);
+    header('Location: nhanvien_index.php');
+
+
+
+
+
+    
+
+}
 if(isset($_POST['Cancel']))
 {
     header('Location: nhanvien_index.php');
 }
-// Ấn định  dung lượng file ảnh upload
-define ("MAX_SIZE","100");
- 
-// hàm này đọc phần mở rộng của file. Nó được dùng để kiểm tra nếu
-// file này có phải là file hình hay không .
-function getExtension($str) {
-$i = strrpos($str,".");
-if (!$i) { return ""; }
-$l = strlen($str) - $i;
-$ext = substr($str,$i+1,$l);
-return $ext;
-}
- 
-//This variable is used as a flag. The value is initialized with 0 (meaning no
-// error  found)
-//and it will be changed to 1 if an errro occures.
-//If the error occures the file will not be uploaded.
-$errors=0;
-//checks if the form has been submitted
-if(isset($_POST['Submit']))
-{
-// lấy tên file upload
-$image=$_FILES['image']['name'];
-// Nếu nó không rỗng
-if ($image)
-{
-// Lấy tên gốc của file
-$filename = stripslashes($_FILES['image']['name']);
-//Lấy phần mở rộng của file
-$extension = getExtension($filename);
-$extension = strtolower($extension);
-// Nếu nó không phải là file hình thì sẽ thông báo lỗi
-if (($extension != "jpg") && ($extension != "jpeg") && ($extension !=
-"png") && ($extension != "gif"))
-{
-// xuất lỗi ra màn hình
-echo '<h1>Đây không phải là file hình!</h1>';
-$errors=1;
-}
-else
-{
-//Lấy dung lượng của file upload
-$size=filesize($_FILES['image']['tmp_name']);
-if ($size > MAX_SIZE*1024)
-{
-echo '<h1>Vượt quá dung lượng cho phép!</h1>';
-$errors=1;
-}
- 
-// đặt tên mới cho file hình up lên
-$image_name=time().'.'.$extension;
-// gán thêm cho file này đường dẫn
-$newname="images/".$image_name;
-// kiểm tra xem file hình này đã upload lên trước đó chưa
-$copied = copy($_FILES['image']['tmp_name'], $newname);
-if (!$copied)
-{
-echo '<h1> File hình này đã tồn tại </h1>';
-$errors=1;
-}}}}
- 
-if(isset($_POST['Submit']) && !$errors)
-{
-echo "<h1>File hình đã được Upload thành công </h1>";
-}
+
 
 
 ?>
@@ -168,16 +131,8 @@ echo "<h1>File hình đã được Upload thành công </h1>";
                             </select>
                         </td>
                     </tr>
-                    <tr>
-                            <th>Ảnh đại diện:</th>
-                            <td>
-                                <input type="file" name="image">
-                            </td>
-                    </tr>
-                    <tr>
-                        
-                        
-                    </tr>
+                   
+                    
                 </table>
                 </fieldset>
                 <fieldset>
@@ -194,7 +149,7 @@ echo "<h1>File hình đã được Upload thành công </h1>";
                     </table>
                 </fieldset>
                 <div>
-                    <input name="Submit" type="submit" value="Thêm"> <input type="submit" name="Cancel" value="Hủy">
+                    <input name="Add" type="submit" value="Thêm"> <input type="submit" name="Cancel" value="Hủy">
                 </div>
                 
             </form>

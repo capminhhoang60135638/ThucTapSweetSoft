@@ -85,7 +85,7 @@ session_start();
                         <li><img class="logobank" src="../image/logobank.png"></li>
                         <li><a href="">Trang chủ</a></li>
                         <li><a href="../nhanvien/nhanvien_index.php">Nhân viên</a></li>
-                
+                        <li><a href="../loainv/loainv_index.php">Chức vụ</a></li>
                         <li><a href="../khachhang/khachhang_index.php">Khách Hàng</a></li>
                         <li><a href="../hoadon/hoadon_index.php">Hóa đơn</a></li>
                         <li><a href="../account/account_index.php">Account</a></li>

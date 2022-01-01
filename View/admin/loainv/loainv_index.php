@@ -82,36 +82,30 @@
         <?php include "../header_footer/header.php"?>
        
         <div>
-            <?php include"../../../Controller/getAllNhanVien.php"?>
+            <?php include"../../../Controller/getAllLoaiNhanVien.php"?>
         <form>
-        <a href="addnhanvien.php">Thêm thành viên</a>
+        <a href="addloainv.php">Thêm chức vụ</a>
 <table border="1px;" align="center">
 	<thead>
 		<tr>
             <td bgcolor="#E6E6FA">STT</td>
 			<td bgcolor="#E6E6FA">ID</td>
-			<td bgcolor="#E6E6FA">Họ</td>
-			<td bgcolor="#E6E6FA">Tên</td>
-			<td bgcolor="#E6E6FA">Số điện thoại</td>
-			<td bgcolor="#E6E6FA">Giới tính</td>
-			<td bgcolor="#E6E6FA">Chức vụ</td>
+			<td bgcolor="#E6E6FA">Tên chức vụ</td>
+			
             
 		<tr>
 	</thead>
 	<tbody>
 	<?php
     	$i = 1; 
-		while ( $data = mysqli_fetch_array($allnv) ) {
+		while ( $data = mysqli_fetch_array($resultlnv) ) {
 		
-			$id = $data['nhanvien_id'];
+			
 	?>
 		<tr>
 			<td><?php echo $i; ?></td>
-            <td><?php echo $data['nhanvien_id'];?></td>
-			<td><?php echo $data['nhanvien_ho']; ?></td>
-			<td><?php echo $data['nhanvien_ten']; ?></td>
-			<td><?php echo $data['nhanvien_sdt']; ?></td>
-			<td><?php echo ($data['nhanvien_gioitinh'] == 1) ? "Nam" : "Nữ"; ?></td>
+            <td><?php echo $data['maloainv'];?></td>
+			
 
 
             
@@ -122,8 +116,8 @@
 
             
 			<td>
-				<a href="editnhanvien.php?id=<?php echo $id;?>">Sửa</a>
-                <a href="deletenhanvien.php?id=<?php echo $id;?>">Xóa</a>
+				<a href="#editnhanvien.php?id=<?php echo $id;?>">Sửa</a>
+                <a href="#quan-ly-thanh-vien.php?id_delete=<?php echo $id;?>">Xóa</a>
 				
 			</td>
 		</tr>
