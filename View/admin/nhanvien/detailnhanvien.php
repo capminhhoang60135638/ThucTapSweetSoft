@@ -1,7 +1,7 @@
 <?php
 $ho=null;$ten=null;$sdt=null;$gt=null;$loai=null;$username=null;$password=null;
 
-if(isset($_POST['Cancel']))
+if(isset($_POST['Back']))
 {
     header('Location: nhanvien_index.php');
 }
@@ -23,7 +23,7 @@ if(isset($_GET['id']))
     $username= $data['username'];
     $password= $data['password'];
 }
-if(isset($_POST['Confirm']))
+if(isset($_POST['Edit']))
 {
     include "../../../Controller/connect.php";
     
@@ -47,7 +47,7 @@ if(isset($_POST['Confirm']))
     mysqli_query($conn,$sql_update_tk);
 
 
-    header('Location: nhanvien_index.php');
+    header('Location: editnhanvien.php?id='.$_GET['id']);
 }
    
     ?>
@@ -63,7 +63,7 @@ if(isset($_POST['Confirm']))
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Chỉnh sửa thông tin nhân viên </title>
+        <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -77,7 +77,7 @@ if(isset($_POST['Confirm']))
             {
             height: 100px;
                 }
-            #add
+            #info
             {
                 
                 padding-bottom: 300px;
@@ -85,7 +85,7 @@ if(isset($_POST['Confirm']))
                 }
             
           
-            #form_add{
+            #form_info{
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -98,6 +98,11 @@ if(isset($_POST['Confirm']))
             }
             h2{
                 text-align: center;
+                color: red;
+            }
+            #bt{
+                display: flex;
+                justify-content: center;
             }
         </style>
     </head>
@@ -109,90 +114,61 @@ if(isset($_POST['Confirm']))
         <div id="header">
             <?php include "../header_footer/header.php"?>
         </div>
-        <div id="add">
-            <form method="POST" action="" id="form_add">
-                <h3 align="center">CHỈNH SỬA NHÂN VIÊN </h3>
-                <fieldset>
-                    <legend>Thông tin nhân viên </legend>
+        <div id="info">
+        <form method="POST" action="" id="form_info">
+           
+                <h2>Thông tin nhân viên</h2>
                 <table>
                     <tr>
-                        <th>Họ:</th>
-                        <td><input type="text" name="ho" value="<?php echo $ho?>"></td>
+                        <th>Họ và tên:</th>
+                        <td><p><?php echo $ho." ".$ten?></p></td>
                     </tr>
-                    <tr>
-                        <th>Tên:</th>
-                        <td><input type="text" name="ten" value="<?php echo $ten?>"></td>
-                    </tr>
+                    
                     <tr>
                         <th>Số điện thoại:</th>
-                        <td><input type="text" name="sdt" value="<?php echo $sdt?>"  ></td>
+                        <td><p><?php echo $sdt?></p></td>
                     </tr>
                     <tr>
                         <th>Giới tính:</th>
-                        <td><input type="radio" name="gt" value="1" <?php if($gt==1) echo "checked";?> >Nam <input type="radio" name="gt" value="0" <?php if($gt==0) echo "checked";?> >Nữ</td>
+                        <td><p><?php if($gt==1) echo "Nam"; else echo "Nữ";?></p></td>
 
                     </tr>
                     <tr>
                         <th>Chức vụ:</th>
                         <td>
-                            <select name="lnv">
-                            <option value="">---Chọn---</option>
+                           
+                           
                             <?php 
                                 include "../../../Controller/getAllLoaiNhanVien.php";
                                 if (mysqli_num_rows($resultlnv) > 0) {
                                     // output dữ liệu trên trang
                                     while($row = $resultlnv->fetch_assoc()) {
                                        
-                                        $t="<option value=".$row['maloainv'];
-
                                         if($row['maloainv']==$loai)
                                         {
-                                            $t.=" selected";
+                                            echo $row['tenloainv'];
                                         }
                                         
-                                        
-                                        $t.=">".$row['tenloainv']."</option>";
-                                        echo $t;
                                     }
                                 }
                             ?>
                             </select>
                         </td>
-                        
                     </tr>
-                    
+                 
+                
                     
                 </table>
-                
-                </fieldset>
-                <fieldset>
-                    <legend>
-                        Thông tin tài khoản
-                    </legend>
-                    <table>
-                    <tr>
-                        <?php 
-                        $sql_tk= "select username, password from taikhoan tk where tk.user_id= '{$_GET['id']}' ";
-                        $result_tk= mysqli_query($conn,$sql_tk);
-                        $row_tk = $result_tk -> fetch_array(MYSQLI_ASSOC);
-                        ?>
-                            <th>Username:</th>
-                            <td><input type="text" name="username" value="<?php echo $row_tk['username']?>" ></td>
-                        </tr>
-                        <tr>
-                            <th>Password</th>
-                            <td><input type="text" name="pass" value="<?php echo $row_tk['password']?>" ></td>
-                        </tr>
-                    </table>
-                </fieldset>
-                <div>
-                    <input name="Confirm" type="submit" value="Xác nhận"> <input type="submit" name="Cancel" value="Hủy">
+                <div id="bt">
+                <input name="Edit" type="submit" value="Chỉnh sửa"> &emsp;
+                        <input type="submit" name="Back" value="Quay lại">
                 </div>
-                
-            </form>
+              
+           
+        </form>
         </div>
-        
         </div>
+       
         <script src="" async defer></script>
     </body>
 </html>

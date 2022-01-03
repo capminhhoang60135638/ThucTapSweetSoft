@@ -73,8 +73,9 @@ if(isset($_POST['Cancel']))
                  background-color: whitesmoke;
                 border-radius: 15px; 
             }
-            #button_submit{
-                text-align: center;
+            #bt{
+                display: flex;
+                justify-content: center;
             }
             h2{
                 text-align: center;
@@ -148,8 +149,8 @@ if(isset($_POST['Cancel']))
                         </tr>
                     </table>
                 </fieldset>
-                <div>
-                    <input name="Add" type="submit" value="Thêm"> <input type="submit" name="Cancel" value="Hủy">
+                <div id="bt">
+                    <input name="Add" type="submit" value="Thêm">&emsp; <input type="submit" name="Cancel" value="Hủy">
                 </div>
                 
             </form>

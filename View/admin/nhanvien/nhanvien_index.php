@@ -122,6 +122,7 @@
 
             
 			<td>
+                <a href="detailnhanvien.php?id=<?php echo $id;?>">Chi tiết</a>
 				<a href="editnhanvien.php?id=<?php echo $id;?>">Sửa</a>
                 <a href="deletenhanvien.php?id=<?php echo $id;?>">Xóa</a>
 				
