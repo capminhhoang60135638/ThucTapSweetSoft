@@ -3,20 +3,20 @@ session_start();
 
 if(isset($_POST['Cancel']))
 {
-    header('Location: loainv_index.php');
+    header('Location: loaikh_index.php');
 }
 if(isset($_GET['id']))
 {
     include "../../../Controller/connect.php";
-    $sql_lnv = "select * from `loainhanvien` where maloainv='".$_GET['id']."'";
+    $sql_lkh = "select * from `loaikhachhang` where maloaikh='".$_GET['id']."'";
      
    //$querynv = mysqli_query($conn,$nv);
    // $row = mysqli_fetch_array($querynv,MYSQLI_ASSOC);
-   $result_lnv= mysqli_query($conn,$sql_lnv);
-   $data = $result_lnv -> fetch_array(MYSQLI_ASSOC);
+   $result_lkh= mysqli_query($conn,$sql_lkh);
+   $data = $result_lkh -> fetch_array(MYSQLI_ASSOC);
    //$data = mysqli_fetch_array($result);
-   $malnv = $data['maloainv'];
-   $tenlnv = $data['tenloainv'];
+   $malkh = $data['maloaikh'];
+   $tenlkh = $data['tenloaikh'];
 }
 if(isset($_POST['Confirm']))
 {
@@ -25,8 +25,8 @@ if(isset($_POST['Confirm']))
     
 
 
-    $sql_update_nv="UPDATE `loainhanvien` SET `tenloainv`='".$_POST['tenlnv']."' WHERE  maloainv='".$_GET['id']."'";
-    mysqli_query($conn,$sql_update_nv);
+    $sql_update_kh="UPDATE `loaikhachhang` SET `tenloaikh`='".$_POST['tenlkh']."' WHERE  maloaikh='".$_GET['id']."'";
+    mysqli_query($conn,$sql_update_kh);
 
 
     
@@ -34,7 +34,7 @@ if(isset($_POST['Confirm']))
   
 
 
-    header('Location: loainv_index.php');
+    header('Location: loaikh_index.php');
 }
    
     ?>
@@ -50,7 +50,7 @@ if(isset($_POST['Confirm']))
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Chỉnh sửa thông tin nhân viên </title>
+        <title>Chỉnh sửa thông tin loại khách hàng </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -102,17 +102,17 @@ if(isset($_POST['Confirm']))
         </div>
         <div id="add">
             <form method="POST" action="" id="form_add">
-                <h3 align="center">CHỈNH SỬA CHỨC VỤ </h3>
+                <h3 align="center">CHỈNH SỬA LOẠI KHÁCH HÀNG </h3>
                 <fieldset>
                     
                 <table>
                     <tr>
-                        <th>Mã chức vụ:</th>
-                        <td><input type="text" name="malnv" value="<?php echo $malnv?>"></td>
+                        <th>Mã loại khách hàng:</th>
+                        <td><input type="text" name="malkh" disabled value="<?php echo $malkh?>"></td>
                     </tr>
                     <tr>
-                        <th>Tên chức vụ:</th>
-                        <td><input type="text" name="tenlnv" value="<?php echo $tenlnv?>"></td>
+                        <th>Tên loại khách hàng:</th>
+                        <td><input type="text" name="tenlkh" value="<?php echo $tenlkh?>"></td>
                     </tr>
                     
                     

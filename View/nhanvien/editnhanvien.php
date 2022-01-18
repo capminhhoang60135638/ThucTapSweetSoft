@@ -1,6 +1,6 @@
 <?php
 session_start();
-$ho=null;$ten=null;$sdt=null;$gt=null;$loai=null;$username=null;$password=null;
+$ho=null;$ten=null;$sdt=null;$gt=null;$loai=null;$password=null;
 
 if(isset($_POST['Cancel']))
 {
@@ -8,7 +8,7 @@ if(isset($_POST['Cancel']))
 }
 if(isset($_GET['id']))
 {
-    include "../../../Controller/connect.php";
+    include "../../Controller/connect.php";
     $sql_nv = "select nhanvien_ho, nhanvien_ten, nhanvien_sdt, nhanvien_gioitinh, password, loainv_id 
     from nhanvien nv join taikhoan tk join nhanvien_loainv nv_lnv join loainhanvien lnv 
     where nv.nhanvien_id=tk.ma_nv and nv.nhanvien_id= nv_lnv.nhanvien_id and nv_lnv.loainv_id=lnv.maloainv and nv.nhanvien_id='{$_GET['id']}'";
@@ -115,7 +115,7 @@ if(isset($_POST['Confirm']))
         <![endif]-->
         <div id="container">
         <div id="header">
-            <?php include "../header_footer/header.php"?>
+            <?php include "header/header.php"?>
         </div>
         <div id="add">
             <form method="POST" action="" id="form_add">
@@ -146,7 +146,7 @@ if(isset($_POST['Confirm']))
                             <select name="lnv">
                             <option value="">---Chọn---</option>
                             <?php 
-                                include "../../../Controller/getAllLoaiNhanVien.php";
+                                include "../../Controller/getAllLoaiNhanVien.php";
                                 if (mysqli_num_rows($resultlnv) > 0) {
                                     // output dữ liệu trên trang
                                     while($row = $resultlnv->fetch_assoc()) {

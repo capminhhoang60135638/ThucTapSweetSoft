@@ -1,18 +1,19 @@
-<?php
-session_start();
-if(!isset($_SESSION['manv']))
-        {
-        header ("Location: admin_login.php");
-        }
-        
+<?php session_start();
+if(isset($_POST['Confirm']))
+{
+    
+    header('Location: editnhanvien.php?id='.$_SESSION['manv']);
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-
 <html>
     <head>
         <meta charset="utf-8">
@@ -20,7 +21,7 @@ if(!isset($_SESSION['manv']))
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="../../../include/css/index.css">
+        <link rel="stylesheet" href="../../include/css/index.css">
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -28,10 +29,10 @@ if(!isset($_SESSION['manv']))
         <![endif]-->
         <div id="containner">
             <div id="header">
-                <?php include "../header_footer/header.php";
+                <?php include "header/header.php";
                 if(isset($_SESSION['manv']))
                 {
-                    include "../../../Controller/connect.php";
+                    include "../../Controller/connect.php";
                     $sql_nv = "select nhanvien_ho, nhanvien_ten, nhanvien_sdt, nhanvien_gioitinh, password, loainv_id 
                     from nhanvien nv join taikhoan tk join nhanvien_loainv nv_lnv join loainhanvien lnv 
                     where nv.nhanvien_id=tk.ma_nv and nv.nhanvien_id= nv_lnv.nhanvien_id and nv_lnv.loainv_id=lnv.maloainv  and nv.nhanvien_id='{$_SESSION['manv']}'";
@@ -56,7 +57,7 @@ if(!isset($_SESSION['manv']))
                 <!-- php getAll... -->
                 <form method="POST" action="" id="form">
            
-                <h2>Thông tin admin</h2>
+                <h2>Thông tin nhân viên</h2>
                 <table>
                     <tr>
                         <th>Họ và tên:</th>
@@ -78,7 +79,7 @@ if(!isset($_SESSION['manv']))
                            
                            
                             <?php 
-                                include "../../../Controller/getAllLoaiNhanVien.php";
+                                include "../../Controller/getAllLoaiNhanVien.php";
                                 if (mysqli_num_rows($resultlnv) > 0) {
                                     // output dữ liệu trên trang
                                     while($row = $resultlnv->fetch_assoc()) {
@@ -98,7 +99,9 @@ if(!isset($_SESSION['manv']))
                 
                     
                 </table>
-                
+                <div id="bt">
+                    <input name="Confirm" type="submit" value="Chỉnh sửa">
+                </div>
               
            
         </form>

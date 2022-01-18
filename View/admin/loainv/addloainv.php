@@ -1,14 +1,23 @@
 <?php
+session_start();
+$str="";
 if(isset($_POST['Add']))
 {
     
 
     include "../../../Controller/connect.php";
-    
-    $sql_addloainv= "insert into loainhanvien(maloainv,tenloainv) values ('{$_POST['maloainv']}','{$_POST['loainv']}')";
-    mysqli_query($conn,$sql_addloainv);
+    $sql_kiemtra="select * from loainhanvien where maloainv='".$_POST['maloainv']."'or tenloainv='".$_POST['loainv']."'";
+    if (mysqli_num_rows(mysqli_query($conn,$sql_kiemtra)) != 0)
+    {
+        $str.="Mã loại nhân viên hoặc tên loại đã tồn tại";
+    }
+    else{
+        $sql_addloainv= "insert into loainhanvien(maloainv,tenloainv) values ('{$_POST['maloainv']}','{$_POST['loainv']}')";
+        mysqli_query($conn,$sql_addloainv);
+       
+        header('Location: loainv_index.php');
+    }
    
-    header('Location: loainv_index.php');
 
 
 
@@ -71,7 +80,9 @@ if(isset($_POST['Cancel']))
             h2{
                 text-align: center;
             }
-
+            p{
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -101,7 +112,9 @@ if(isset($_POST['Cancel']))
                     
                 </table>
                 </fieldset>
-                
+                <div>
+                    <p align="center" ><?php if($str!="") echo $str;?></p>
+                </div>
                 <div id="bt">
                     <input name="Add" type="submit" value="Thêm" >&emsp;<input type="submit" name="Cancel" value="Hủy">
                 </div>

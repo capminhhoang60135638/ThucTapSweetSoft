@@ -3,6 +3,7 @@ session_start();
 //require_once "../php/check_username.php"
 ?>
 
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -15,14 +16,10 @@ session_start();
         <title>Trang chủ admin</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../../../include/css/index.css"> 
        
-      
-<link rel="stylesheet" href="../../../include/css/index.css"> 
-       <style>
-           table{
-               width: 900px;
-           }
-       </style>
+        
+       
     </head>
 
     <body>
@@ -31,44 +28,37 @@ session_start();
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div id="containner">
+
+        
+ <div id="containner">
             <div id="header">
                 <?php include "../header_footer/header.php"?>
             </div>
             <div id="body">
                 <!-- php getAll... -->
-                    <?php include"../../../Controller/getAllKhachHang.php"?>
+                <?php include"../../../Controller/getAllLoaiKhachHang.php"?>
                 <form id="form">
-                <a href="addKhachHang.php">Thêm khách hàng</a>
+                <a href="addloaikh.php">Thêm loại khách hàng</a>
 <table border="1px;" align="center">
 	<thead>
 		<tr>
             <td bgcolor="#E6E6FA">STT</td>
 			<td bgcolor="#E6E6FA">ID</td>
-			<td bgcolor="#E6E6FA">Họ</td>
-			<td bgcolor="#E6E6FA">Tên</td>
-            <td bgcolor="#E6E6FA">Ngày sinh</td>
-            <td bgcolor="#E6E6FA">Giới tính</td>
-			<td bgcolor="#E6E6FA">Số điện thoại</td>
-			<td bgcolor="#E6E6FA">Loại khách hàng</td>
+			<td bgcolor="#E6E6FA">Tên loại</td>
+			
             
 		<tr>
 	</thead>
 	<tbody>
 	<?php
     	$i = 1; 
-		while ( $data = mysqli_fetch_array($allkh) ) {
+		while ( $data = mysqli_fetch_array($resultlkh) ) {
 		
-			$id = $data['khachhang_id'];
+			
 	?>
 		<tr>
 			<td><?php echo $i; ?></td>
-            <td><?php echo $data['khachhang_id'];?></td>
-			<td><?php echo $data['khachhang_ho']; ?></td>
-			<td><?php echo $data['khachhang_ten']; ?></td>
-            <td><?php echo $data['khachhang_ngaysinh']; ?></td>
-            <td><?php echo ($data['gioi_tinh'] == 1) ? "Nam" : "Nữ"; ?></td>
-			<td><?php echo $data['khachhang_sdt']; ?></td>
+            <td><?php echo $data['maloaikh'];?></td>
 			
 
 
@@ -80,9 +70,9 @@ session_start();
 
             
 			<td>
-                <a href="detailskhachhang.php?id=<?php echo $id;?>">Chi tiết</a>
-				<a href="editKhachHang.php?id=<?php echo $id;?>">Sửa</a>
-                <a href="deleteKhachHang.php?id=<?php echo $id;?>">Xóa</a>
+                <a href="detailsloaikh.php?id=<?php echo $data['maloaikh']?>">Chi tiết</a>
+				<a href="editloaikh.php?id=<?php echo $data['maloaikh'];?>">Sửa</a>
+                <a href="deleteloaikh.php?id=<?php echo $data['maloaikh'];?>">Xóa</a>
 				
 			</td>
 		</tr>
@@ -96,10 +86,6 @@ session_start();
 
             </div>
        </div>
-
-
-
-        
         <script src="" async defer></script>
     </body>
 </html>

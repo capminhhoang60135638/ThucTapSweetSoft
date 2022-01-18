@@ -1,7 +1,7 @@
 <?php
-session_start();
 
-if(isset($_POST['Cancel']))
+session_start();
+if(isset($_POST['Back']))
 {
     header('Location: loainv_index.php');
 }
@@ -12,29 +12,19 @@ if(isset($_GET['id']))
      
    //$querynv = mysqli_query($conn,$nv);
    // $row = mysqli_fetch_array($querynv,MYSQLI_ASSOC);
-   $result_lnv= mysqli_query($conn,$sql_lnv);
-   $data = $result_lnv -> fetch_array(MYSQLI_ASSOC);
-   //$data = mysqli_fetch_array($result);
-   $malnv = $data['maloainv'];
-   $tenlnv = $data['tenloainv'];
+    $result_lnv= mysqli_query($conn,$sql_lnv);
+    $data = $result_lnv -> fetch_array(MYSQLI_ASSOC);
+    //$data = mysqli_fetch_array($result);
+    $malnv = $data['maloainv'];
+    $tenlnv = $data['tenloainv'];
+    
 }
-if(isset($_POST['Confirm']))
+if(isset($_POST['Edit']))
 {
-    include "../../../Controller/connect.php";
-    
     
 
 
-    $sql_update_nv="UPDATE `loainhanvien` SET `tenloainv`='".$_POST['tenlnv']."' WHERE  maloainv='".$_GET['id']."'";
-    mysqli_query($conn,$sql_update_nv);
-
-
-    
-       
-  
-
-
-    header('Location: loainv_index.php');
+    header('Location: editloainv.php?id='.$_GET['id']);
 }
    
     ?>
@@ -50,7 +40,7 @@ if(isset($_POST['Confirm']))
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Chỉnh sửa thông tin nhân viên </title>
+        <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -64,7 +54,7 @@ if(isset($_POST['Confirm']))
             {
             height: 100px;
                 }
-            #add
+            #info
             {
                 
                 padding-bottom: 300px;
@@ -72,7 +62,7 @@ if(isset($_POST['Confirm']))
                 }
             
           
-            #form_add{
+            #form_info{
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -85,6 +75,7 @@ if(isset($_POST['Confirm']))
             }
             h2{
                 text-align: center;
+                color: red;
             }
             #bt{
                 display: flex;
@@ -100,35 +91,35 @@ if(isset($_POST['Confirm']))
         <div id="header">
             <?php include "../header_footer/header.php"?>
         </div>
-        <div id="add">
-            <form method="POST" action="" id="form_add">
-                <h3 align="center">CHỈNH SỬA CHỨC VỤ </h3>
-                <fieldset>
-                    
+        <div id="info">
+        <form method="POST" action="" id="form_info">
+           
+                <h2>Thông tin chức vụ</h2>
                 <table>
                     <tr>
                         <th>Mã chức vụ:</th>
-                        <td><input type="text" name="malnv" value="<?php echo $malnv?>"></td>
+                        <td><p><?php echo $malnv?></p></td>
                     </tr>
+                    
                     <tr>
                         <th>Tên chức vụ:</th>
-                        <td><input type="text" name="tenlnv" value="<?php echo $tenlnv?>"></td>
+                        <td><p><?php echo $tenlnv?></p></td>
                     </tr>
-                    
-                    
+                   
+                 
+                
                     
                 </table>
-                
-                </fieldset>
-             
                 <div id="bt">
-                    <input name="Confirm" type="submit" value="Xác nhận"> &emsp; <input type="submit" name="Cancel" value="Hủy">
+                <input name="Edit" type="submit" value="Chỉnh sửa"> &emsp;
+                        <input type="submit" name="Back" value="Quay lại">
                 </div>
-                
-            </form>
+              
+           
+        </form>
         </div>
-        
         </div>
+       
         <script src="" async defer></script>
     </body>
 </html>

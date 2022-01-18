@@ -1,22 +1,30 @@
 <?php
+session_start();
 if(isset($_POST['Add']))
 {
     
 
     include "../../../Controller/connect.php";
     
-    $sql_addnhanvien= "insert into nhanvien(nhanvien_ho,nhanvien_ten,nhanvien_sdt,nhanvien_gioitinh) values ('{$_POST['ho']}','{$_POST['ten']}','{$_POST['sdt']}','{$_POST['gt']}')";
+    $sql_addnhanvien= "insert into nhanvien(nhanvien_ho,nhanvien_ten,nhanvien_sdt,nhanvien_gioitinh) values ('{$_POST['ho']}','{$_POST['ten']}','{$_POST['sdt']}',b'{$_POST['gt']}')";
     mysqli_query($conn,$sql_addnhanvien);
     $sql_timmanv= "SELECT * FROM nhanvien nv ORDER BY nv.nhanvien_id DESC LIMIT 1";
     $query_manv=mysqli_query($conn,$sql_timmanv);
     $data = mysqli_fetch_array($query_manv);
-    $manv=$data['nhanvien_id'];
+    $manv=$data['nhanvien_id'];////dung
     
     $sql_addlnv="insert into nhanvien_loainv(nhanvien_id,loainv_id) values('$manv','".$_POST['lnv']."')";
     mysqli_query($conn,$sql_addlnv);
-    $sql_addtaikhoan="insert into taikhoan(user_id,username,password) values('$manv','".$_POST['username']."','".$_POST['pass']."')";
-   
+
+
+
+    $sql_addtaikhoan="insert into taikhoan(ma_nv,password) values('".$manv."','".$_POST['pass']."')";
     mysqli_query($conn,$sql_addtaikhoan);
+
+   
+
+   
+    
     header('Location: nhanvien_index.php');
 
 
@@ -87,74 +95,74 @@ if(isset($_POST['Cancel']))
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div id="container">
-        <div id="header">
-            <?php include "../header_footer/header.php"?>
-        </div>
-        <div id="add">
-            <form method="POST" action="" id="form_add">
-                <h3 align="center">ĐĂNG KÝ NHÂN VIÊN</h3>
-                <fieldset>
-                    <legend>Thông tin nhân viên</legend>
-                <table>
-                    <tr>
-                        <th>Họ:</th>
-                        <td><input type="text" name="ho" value="" placeholder="Nguyễn Văn"></td>
-                    </tr>
-                    <tr>
-                        <th>Tên:</th>
-                        <td><input type="text" name="ten" value="" placeholder="An"></td>
-                    </tr>
-                    <tr>
-                        <th>Số điện thoại:</th>
-                        <td><input type="text" name="sdt" value="" ></td>
-                    </tr>
-                    <tr>
-                        <th>Giới tính:</th>
-                        <td><input type="radio" name="gt" value="1">Nam <input type="radio" name="gt" value="0">Nữ</td>
+            <div id="header">
+                <?php include "../header_footer/header.php"?>
+            </div>
+            <div id="add">
+                <form method="POST" action="" id="form_add">
+                    <h3 align="center">ĐĂNG KÝ NHÂN VIÊN</h3>
+                    <fieldset>
+                        <legend>Thông tin nhân viên</legend>
+                        <table>
+                            <tr>
+                                <th>Họ:</th>
+                                <td><input type="text" name="ho" value="" placeholder="Nguyễn Văn"></td>
+                            </tr>
+                            <tr>
+                                <th>Tên:</th>
+                                <td><input type="text" name="ten" value="" placeholder="An"></td>
+                            </tr>
+                            <tr>
+                                <th>Số điện thoại:</th>
+                                <td><input type="text" name="sdt" value="" ></td>
+                            </tr>
+                            <tr>
+                                <th>Giới tính:</th>
+                                <td><input type="radio" name="gt" value="1">Nam <input type="radio" name="gt" value="0">Nữ</td>
 
-                    </tr>
-                    <tr>
-                        <th>Chức vụ:</th>
-                        <td>
-                            <select name="lnv">
-                            <option value="" selected>---Chọn---</option>
-                            <?php 
-                                include "../../../Controller/getAllLoaiNhanVien.php";
-                                if (mysqli_num_rows($resultlnv) > 0) {
-                                    // output dữ liệu trên trang
-                                    while($row = $resultlnv->fetch_assoc()) {
+                            </tr>
+                            <tr>
+                                <th>Chức vụ:</th>
+                                <td>
+                                    <select name="lnv">
+                                    <option value="" selected>---Chọn---</option>
+                                    <?php 
+                                        include "../../../Controller/getAllLoaiNhanVien.php";
+                                        if (mysqli_num_rows($resultlnv) > 0) {
+                                            // output dữ liệu trên trang
+                                            while($row = $resultlnv->fetch_assoc()) {
                                        
-                                        echo "<option value=".$row['maloainv'].">".$row['tenloainv']."</option>";
+                                                echo "<option value=".$row['maloainv'].">".$row['tenloainv']."</option>";
                                         
-                                    }
-                                }
-                            ?>
-                            </select>
-                        </td>
-                    </tr>
+                                            }
+                                        }
+                                    ?>
+                                    </select>
+                                </td>
+                            </tr>
                    
                     
-                </table>
-                </fieldset>
-                <fieldset>
-                    <legend>Đăng ký tài khoản</legend>
-                    <table>
-                        <tr>
-                            <th>Username:</th>
-                            <td><input type="text" name="username"></td>
-                        </tr>
-                        <tr>
-                            <th>Password</th>
-                            <td><input type="password" name="pass"></td>
-                        </tr>
-                    </table>
-                </fieldset>
-                <div id="bt">
-                    <input name="Add" type="submit" value="Thêm">&emsp; <input type="submit" name="Cancel" value="Hủy">
-                </div>
+                        </table>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Đăng ký tài khoản</legend>
+                            <table>
+                                <tr>
+                                    <th>Mật khẩu:</th>
+                                    <td><input type="password" name="pass"></td>
+                                </tr>
+                                <tr>
+                                    <th>Nhập lại mật khẩu:</th>
+                                    <td><input type="password" name="repass"></td>
+                                </tr>
+                            </table>
+                    </fieldset>
+                    <div id="bt">
+                        <input name="Add" type="submit" value="Thêm">&emsp; <input type="submit" name="Cancel" value="Hủy">
+                    </div>
                 
-            </form>
-        </div>
+                </form>
+            </div>
         
         </div>
         <script src="" async defer></script>

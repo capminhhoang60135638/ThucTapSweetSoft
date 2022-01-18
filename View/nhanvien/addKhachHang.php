@@ -1,33 +1,39 @@
 <?php
 session_start();
+$str="";
 if(isset($_POST['Add']))
 {
+    if ($_POST['pass']==$_POST['repass'])
+    {
+        include "../../Controller/connect.php";
+        //them vao bang khach hang
+        $sql_addkhachhang="INSERT INTO `khachhang`(`khachhang_ho`, `khachhang_ten`, `khachhang_ngaysinh`, `gioi_tinh`, `khachhang_sdt`, `sodu`) VALUES ('".$_POST['ho']."','".$_POST['ten']."','".$_POST['ngaysinh']."',b'".$_POST['gt']."','".$_POST['sdt']."','".$_POST['sodu']."')"; 
+        mysqli_query($conn,$sql_addkhachhang);
+        
+        
+        //tim ma khach hàng
+        $sql_timmakh= "SELECT * FROM khachhang kh ORDER BY kh.khachhang_id DESC LIMIT 1";
+        $query_makh=mysqli_query($conn,$sql_timmakh);
+        $data = mysqli_fetch_array($query_makh);
+        $makh=$data['khachhang_id'];
+        
+        //add vào bang loai khach hang
+        $sql_addlkh="insert into khachhang_loaikh(makh,maloaikh) values('$makh','".$_POST['lkh']."')";
+        mysqli_query($conn,$sql_addlkh);
     
-
-    include "../../../Controller/connect.php";
     
-    $sql_addkhachhang="INSERT INTO `khachhang`(`khachhang_ho`, `khachhang_ten`, `khachhang_ngaysinh`, `gioi_tinh`, `khachhang_sdt`, `sodu`) VALUES ('".$_POST['ho']."','".$_POST['ten']."','".$_POST['ngaysinh']."',b'".$_POST['gt']."','".$_POST['sdt']."','".$_POST['sodu']."')"; 
+        //add vào bảng tk
+        $sql_addtaikhoan="insert into taikhoan( `ma_khachhang`, `password`) values('".$makh."','".$_POST['pass']."')";
+        mysqli_query($conn,$sql_addtaikhoan);
     
-    
+        
+        
+        header('Location: khachhang_index.php?id='.$_GET['id']);
+    }
+    else{
+        $str.="Nhập mật khẩu lại không đúng";
+    }
    
-    mysqli_query($conn,$sql_addkhachhang);
-    $sql_timmakh= "SELECT * FROM khachhang kh ORDER BY kh.khachhang_id DESC LIMIT 1";
-    $query_makh=mysqli_query($conn,$sql_timmakh);
-    $data = mysqli_fetch_array($query_makh);
-    $makh=$data['khachhang_id'];
-    
-    $sql_addlkh="insert into khachhang_loaikh(makh,maloaikh) values('$makh','".$_POST['lkh']."')";
-    mysqli_query($conn,$sql_addlkh);
-
-
-
-    $sql_addtaikhoan="insert into taikhoan(ma_khachhang,password) values('".$makh."','".$_POST['pass']."')";
-    mysqli_query($conn,$sql_addtaikhoan);
-
-    
-
-    
-    header('Location: khachhang_index.php');
 
 
 
@@ -36,9 +42,10 @@ if(isset($_POST['Add']))
     
 
 }
+
 if(isset($_POST['Cancel']))
 {
-    header('Location: khachhang_index.php');
+    header('Location: khachhang_index.php?id='.$_GET['id']);
 }
 
 
@@ -53,7 +60,7 @@ if(isset($_POST['Cancel']))
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Thêm khách hàng </title>
+        <title>Thêm khách hàng  </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -98,7 +105,7 @@ if(isset($_POST['Cancel']))
         <![endif]-->
         <div id="container">
         <div id="header">
-            <?php include "../header_footer/header.php"?>
+            <?php include "header/header.php"?>
         </div>
         <div id="add">
             <form method="POST" action="" id="form_add">
@@ -134,7 +141,7 @@ if(isset($_POST['Cancel']))
                             <select name="lkh">
                             <option value="" selected>---Chọn---</option>
                             <?php 
-                                include "../../../Controller/getAllLoaiKhachHang.php";
+                                include "../../Controller/getAllLoaiKhachHang.php";
                                 if (mysqli_num_rows($resultlkh) > 0) {
                                     // output dữ liệu trên trang
                                     while($row = $resultlkh->fetch_assoc()) {
@@ -168,6 +175,7 @@ if(isset($_POST['Cancel']))
                         </tr>
                     </table>
                 </fieldset>
+                <p><?php if($str!="") echo $str;?></p>
                 <div id="bt">
                     <input name="Add" type="submit" value="Thêm">&emsp; <input type="submit" name="Cancel" value="Hủy">
                 </div>

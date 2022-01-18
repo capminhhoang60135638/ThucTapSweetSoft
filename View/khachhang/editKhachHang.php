@@ -1,57 +1,62 @@
 <?php
 session_start();
-$ho=null;$ten=null;$sdt=null;$gt=null;$loai=null;$username=null;$password=null;
 
 if(isset($_POST['Cancel']))
 {
-    header('Location: nhanvien_index.php');
+    $link="khachhang_index.php";
+    header('Location: '.$link);
 }
 if(isset($_GET['id']))
 {
-    include "../../../Controller/connect.php";
-    $sql_nv = "select nhanvien_ho, nhanvien_ten, nhanvien_sdt, nhanvien_gioitinh, password, loainv_id 
-    from nhanvien nv join taikhoan tk join nhanvien_loainv nv_lnv join loainhanvien lnv 
-    where nv.nhanvien_id=tk.ma_nv and nv.nhanvien_id= nv_lnv.nhanvien_id and nv_lnv.loainv_id=lnv.maloainv and nv.nhanvien_id='{$_GET['id']}'";
+    include "../../Controller/connect.php";
+    $sql_kh = "select khachhang_ho, khachhang_ten, khachhang_ngaysinh, khachhang_sdt, gioi_tinh, password, kh_lkh.maloaikh, kh.sodu from khachhang kh join taikhoan tk join khachhang_loaikh kh_lkh join loaikhachhang lkh WHERE kh.khachhang_id=tk.ma_khachhang and kh.khachhang_id=kh_lkh.makh and kh_lkh.maloaikh=lkh.maloaikh and kh.khachhang_id='{$_GET['id']}'";
      
    //$querynv = mysqli_query($conn,$nv);
    // $row = mysqli_fetch_array($querynv,MYSQLI_ASSOC);
-    $result= mysqli_query($conn,$sql_nv);
+    $result= mysqli_query($conn,$sql_kh);
     $data = $result -> fetch_array(MYSQLI_ASSOC);
     //$data = mysqli_fetch_array($result);
-    $ho = $data['nhanvien_ho'];
-    $ten = $data['nhanvien_ten'];
-    $sdt = $data['nhanvien_sdt'];
-    $gt = $data['nhanvien_gioitinh'];
-    $loai = $data['loainv_id'];
-    
+    $ho = $data['khachhang_ho'];
+    $ten = $data['khachhang_ten'];
+    $ngaysinh = $data['khachhang_ngaysinh'];
+    $sdt = $data['khachhang_sdt'];
+    $gt = $data['gioi_tinh'];
+    $loai = $data['maloaikh'];
+    $sodu = $data['sodu'];
+   
     $password= $data['password'];
 }
 if(isset($_POST['Confirm']))
 {
-    include "../../../Controller/connect.php";
+    include "../../Controller/connect.php";
     
     
 
 
-    $sql_update_nv="UPDATE `nhanvien` SET `nhanvien_ho`='".$_POST['ho']."',`nhanvien_ten`='".$_POST['ten']."',`nhanvien_sdt`='".$_POST['sdt']."',`nhanvien_gioitinh`=b'".$_POST['gt']."' WHERE nhanvien_id=".$_GET['id'];
-    mysqli_query($conn,$sql_update_nv);
+    $sql_update_kh="UPDATE `khachhang` SET `khachhang_ho`='".$_POST['ho']."',`khachhang_ten`='".$_POST['ten']."',`khachhang_ngaysinh`='".$_POST['ngaysinh']."',`gioi_tinh`=b'".$_POST['gt']."',`khachhang_sdt`='".$_POST['sdt']."' WHERE khachhang_id=".$_GET['id'];
+    
+    //"UPDATE `nhanvien` SET `nhanvien_ho`='".$_POST['ho']."',`nhanvien_ten`='".$_POST['ten']."',`nhanvien_sdt`='".$_POST['sdt']."',`nhanvien_gioitinh`='".$_POST['gt']."' WHERE nhanvien_id=".$_GET['id'];
+    mysqli_query($conn,$sql_update_kh);
 
 
     
        
-    $sql_update_lnv="UPDATE `nhanvien_loainv` nv_lnv SET `loainv_id`='".$_POST['lnv']."' WHERE nv_lnv.nhanvien_id=".$_GET['id'];
-    mysqli_query($conn,$sql_update_lnv);
-
+    $sql_update_lkh="UPDATE `khachhang_loaikh` kh_lkh SET `maloaikh`='".$_POST['lkh']."' WHERE kh_lkh.makh=".$_GET['id'];
     
-
-
     
-  //update bang tk
-    $sql_update_tk="UPDATE `taikhoan` tk SET `password`='".$_POST['pass']."' WHERE tk.ma_nv='".$_GET['id']."'";
-    mysqli_query($conn,$sql_update_tk);
+   // "UPDATE `khachhang_loaikh` kh_lkh SET `loainv_id`='".$_POST['lnv']."' WHERE nv_lnv.nhanvien_id=".$_GET['id'];
+    mysqli_query($conn,$sql_update_lkh);
+
+     
+ 
+ 
+     
+   //update bang tk
+     $sql_update_tk="UPDATE `taikhoan` tk SET `password`='".$_POST['pass']."' WHERE ma_khachhang='".$_GET['id']."'";
+     mysqli_query($conn,$sql_update_tk);
 
 
-    header('Location: nhanvien_index.php');
+     header('Location: khachhang_index.php');
 }
    
     ?>
@@ -67,7 +72,7 @@ if(isset($_POST['Confirm']))
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Chỉnh sửa thông tin nhân viên </title>
+        <title>Chỉnh sửa thông tin khách hàng </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -115,13 +120,13 @@ if(isset($_POST['Confirm']))
         <![endif]-->
         <div id="container">
         <div id="header">
-            <?php include "../header_footer/header.php"?>
+            <?php include "header/header.php"?>
         </div>
         <div id="add">
             <form method="POST" action="" id="form_add">
-                <h3 align="center">CHỈNH SỬA NHÂN VIÊN </h3>
+                <h3 align="center">CHỈNH SỬA KHÁCH HÀNG </h3>
                 <fieldset>
-                    <legend>Thông tin nhân viên </legend>
+                    <legend>Thông tin khách hàng </legend>
                 <table>
                     <tr>
                         <th>Họ:</th>
@@ -132,6 +137,10 @@ if(isset($_POST['Confirm']))
                         <td><input type="text" name="ten" value="<?php echo $ten?>"></td>
                     </tr>
                     <tr>
+                        <th>Ngày sinh:</th>
+                        <td><input type="date" name="ngaysinh" value="<?php echo $ngaysinh;//date_format(date_create($ngaysinh),"mm/dd/yyyy");?>"></td>
+                    </tr>
+                    <tr>
                         <th>Số điện thoại:</th>
                         <td><input type="text" name="sdt" value="<?php echo $sdt?>"  ></td>
                     </tr>
@@ -140,34 +149,7 @@ if(isset($_POST['Confirm']))
                         <td><input type="radio" name="gt" value="1" <?php if($gt==1) echo "checked";?> >Nam <input type="radio" name="gt" value="0" <?php if($gt==0) echo "checked";?> >Nữ</td>
 
                     </tr>
-                    <tr>
-                        <th>Chức vụ:</th>
-                        <td>
-                            <select name="lnv">
-                            <option value="">---Chọn---</option>
-                            <?php 
-                                include "../../../Controller/getAllLoaiNhanVien.php";
-                                if (mysqli_num_rows($resultlnv) > 0) {
-                                    // output dữ liệu trên trang
-                                    while($row = $resultlnv->fetch_assoc()) {
-                                       
-                                        $t="<option value=".$row['maloainv'];
-
-                                        if($row['maloainv']==$loai)
-                                        {
-                                            $t.=" selected";
-                                        }
-                                        
-                                        
-                                        $t.=">".$row['tenloainv']."</option>";
-                                        echo $t;
-                                    }
-                                }
-                            ?>
-                            </select>
-                        </td>
-                        
-                    </tr>
+                   
                     
                     
                 </table>
@@ -180,12 +162,12 @@ if(isset($_POST['Confirm']))
                     <table>
                     <tr>
                         <?php 
-                        $sql_tk= "select * from taikhoan tk WHERE tk.ma_nv= '{$_GET['id']}' ";
+                        $sql_tk= "select password from  taikhoan tk where tk.ma_khachhang= '{$_GET['id']}' ";
                         $result_tk= mysqli_query($conn,$sql_tk);
                         $row_tk = $result_tk -> fetch_array(MYSQLI_ASSOC);
                         ?>
-                            <th>Mã người dùng:</th>
-                            <td><input type="text" name="username" disabled value="<?php echo $row_tk['ma_nv']?>" ></td>
+                            <th>Username:</th>
+                            <td><input type="text" name="username" disabled value="<?php echo $_GET['id']?>" ></td>
                         </tr>
                         <tr>
                             <th>Password</th>

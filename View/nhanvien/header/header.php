@@ -88,12 +88,10 @@
                     
                     <ul>
                         <li class="logobank"></li>
-                        <a href="../admin_page/admin_index.php"><li>Trang chủ</li></a>
-                        <a href="../nhanvien/nhanvien_index.php"><li>Nhân viên</li></a>
-                        <a href="../loainv/loainv_index.php"><li>Chức vụ</li></a>
-                        <a href="../khachhang/khachhang_index.php"><li>Khách Hàng</li></a>
-                        <a href="../loaikh/loaikh_index.php"><li>Loại Khách Hàng</li></a>
-                        <a href="../hoadon/hoadon_index.php"><li>Hóa đơn</li></a>
+                        <a href="nhanvien_index.php"><li>Trang chủ</li></a>
+                        <a href="guitien.php?id=<?php echo $_SESSION['manv']?>"><li>Dịch vụ</li></a>
+                        <a href="hoadon.php?id=<?php echo $_SESSION['manv']?>"><li>Hóa đơn</li></a>
+                        <a href="khachhang_index.php?id=<?php echo $_SESSION['manv']?>"><li>Khách hàng</li></a>
                         <!-- <li><a href="../account/account_index.php">Account</a></li> -->
                         <?php
                             if(isset($_SESSION["manv"]))
@@ -102,7 +100,7 @@
                             
                                    
                                 
-                                 echo    "<a href='../php/logout.php'><li>Logout</li></a>
+                                 echo    "<a href='logout.php'><li>Logout</li></a>
     
                                 
                             </li>";

@@ -1,29 +1,28 @@
 <?php
 session_start();
-$ho=null;$ten=null;$sdt=null;$gt=null;$loai=null;$username=null;$password=null;
-
 if(isset($_POST['Back']))
 {
-    header('Location: nhanvien_index.php');
+    $link="khachhang_index.php?id=".$_GET['id'];
+    header('Location: '.$link);
 }
 if(isset($_GET['id']))
 {
-    include "../../../Controller/connect.php";
-    $sql_nv = "select nhanvien_ho, nhanvien_ten, nhanvien_sdt, nhanvien_gioitinh, password, loainv_id 
-    from nhanvien nv join taikhoan tk join nhanvien_loainv nv_lnv join loainhanvien lnv 
-    where nv.nhanvien_id=tk.ma_nv and nv.nhanvien_id= nv_lnv.nhanvien_id and nv_lnv.loainv_id=lnv.maloainv and nv.nhanvien_id='{$_GET['id']}'";
+    include "../../Controller/connect.php";
+    $sql_kh = "select khachhang_ho, khachhang_ten, khachhang_ngaysinh, khachhang_sdt, gioi_tinh, password, kh_lkh.maloaikh from khachhang kh join taikhoan tk join khachhang_loaikh kh_lkh join loaikhachhang lkh WHERE kh.khachhang_id=tk.ma_khachhang and kh.khachhang_id=kh_lkh.makh and kh_lkh.maloaikh=lkh.maloaikh and kh.khachhang_id='{$_GET['id_kh']}'";
      
    //$querynv = mysqli_query($conn,$nv);
    // $row = mysqli_fetch_array($querynv,MYSQLI_ASSOC);
-    $result= mysqli_query($conn,$sql_nv);
+    $result= mysqli_query($conn,$sql_kh);
     $data = $result -> fetch_array(MYSQLI_ASSOC);
     //$data = mysqli_fetch_array($result);
-    $ho = $data['nhanvien_ho'];
-    $ten = $data['nhanvien_ten'];
-    $sdt = $data['nhanvien_sdt'];
-    $gt = $data['nhanvien_gioitinh'];
-    $loai = $data['loainv_id'];
+    $ho = $data['khachhang_ho'];
+    $ten = $data['khachhang_ten'];
+    $ngaysinh= $data['khachhang_ngaysinh'];
+    $sdt = $data['khachhang_sdt'];
     
+    $gt = $data['gioi_tinh'];
+    $loai = $data['maloaikh'];
+  
     $password= $data['password'];
 }
 if(isset($_POST['Edit']))
@@ -31,7 +30,7 @@ if(isset($_POST['Edit']))
     
 
 
-    header('Location: editnhanvien.php?id='.$_GET['id']);
+    header('Location: editKhachHang.php?id='.$_GET['id'].'&id_kh='.$_GET['id_kh']);
 }
    
     ?>
@@ -96,18 +95,21 @@ if(isset($_POST['Edit']))
         <![endif]-->
         <div id="container">
         <div id="header">
-            <?php include "../header_footer/header.php"?>
+            <?php include "header/header.php"?>
         </div>
         <div id="info">
         <form method="POST" action="" id="form_info">
            
-                <h2>Thông tin nhân viên</h2>
+                <h2>Thông tin khách hàng</h2>
                 <table>
                     <tr>
                         <th>Họ và tên:</th>
                         <td><p><?php echo $ho." ".$ten?></p></td>
                     </tr>
-                    
+                    <tr>
+                        <th>Ngày sinh:</th>
+                        <td><p><?php echo date_format(date_create($ngaysinh),"d/m/Y");?></p></td>
+                    </tr>
                     <tr>
                         <th>Số điện thoại:</th>
                         <td><p><?php echo $sdt?></p></td>
@@ -118,19 +120,19 @@ if(isset($_POST['Edit']))
 
                     </tr>
                     <tr>
-                        <th>Chức vụ:</th>
+                        <th>Loại khách hàng:</th>
                         <td>
                            
                            
                             <?php 
-                                include "../../../Controller/getAllLoaiNhanVien.php";
-                                if (mysqli_num_rows($resultlnv) > 0) {
+                                include "../../Controller/getAllLoaiKhachHang.php";
+                                if (mysqli_num_rows($resultlkh) > 0) {
                                     // output dữ liệu trên trang
-                                    while($row = $resultlnv->fetch_assoc()) {
+                                    while($row = $resultlkh->fetch_assoc()) {
                                        
-                                        if($row['maloainv']==$loai)
+                                        if($row['maloaikh']==$loai)
                                         {
-                                            echo $row['tenloainv'];
+                                            echo $row['tenloaikh'];
                                         }
                                         
                                     }

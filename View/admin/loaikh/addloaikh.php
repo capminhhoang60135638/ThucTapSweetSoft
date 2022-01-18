@@ -1,46 +1,31 @@
 <?php
 session_start();
+if(isset($_POST['Add']))
+{
+    
 
+    include "../../../Controller/connect.php";
+    
+    $sql_addloaikh= "insert into loaikhachhang(maloaikh,tenloaikh) values ('".$_POST['maloaikh']."','".$_POST['loaikh']."')";
+    mysqli_query($conn,$sql_addloaikh);
+   
+    header('Location: loaikh_index.php');
+
+
+
+
+
+    
+
+}
 if(isset($_POST['Cancel']))
 {
-    header('Location: loainv_index.php');
+    header('Location: loaikh_index.php');
 }
-if(isset($_GET['id']))
-{
-    include "../../../Controller/connect.php";
-    $sql_lnv = "select * from `loainhanvien` where maloainv='".$_GET['id']."'";
-     
-   //$querynv = mysqli_query($conn,$nv);
-   // $row = mysqli_fetch_array($querynv,MYSQLI_ASSOC);
-   $result_lnv= mysqli_query($conn,$sql_lnv);
-   $data = $result_lnv -> fetch_array(MYSQLI_ASSOC);
-   //$data = mysqli_fetch_array($result);
-   $malnv = $data['maloainv'];
-   $tenlnv = $data['tenloainv'];
-}
-if(isset($_POST['Confirm']))
-{
-    include "../../../Controller/connect.php";
-    
-    
-
-
-    $sql_update_nv="UPDATE `loainhanvien` SET `tenloainv`='".$_POST['tenlnv']."' WHERE  maloainv='".$_GET['id']."'";
-    mysqli_query($conn,$sql_update_nv);
-
-
-    
-       
-  
-
-
-    header('Location: loainv_index.php');
-}
-   
-    ?>
 
 
 
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -50,7 +35,7 @@ if(isset($_POST['Confirm']))
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Chỉnh sửa thông tin nhân viên </title>
+        <title>Thêm khách hàng </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
@@ -80,16 +65,38 @@ if(isset($_POST['Confirm']))
                  background-color: whitesmoke;
                 border-radius: 15px; 
             }
-            #button_submit{
-                text-align: center;
-            }
-            h2{
-                text-align: center;
-            }
             #bt{
                 display: flex;
                 justify-content: center;
             }
+            h2{
+                text-align: center;
+            }
+            body{
+                background-image: url("../image/backgroundbank.png");
+                background-size: cover;
+            }
+           
+            
+            
+            
+            form{
+                
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+            table{
+               background-color: snow;
+            }
+            
+            
+            
+            a{
+                color: blue;
+            }
+
         </style>
     </head>
     <body>
@@ -102,27 +109,26 @@ if(isset($_POST['Confirm']))
         </div>
         <div id="add">
             <form method="POST" action="" id="form_add">
-                <h3 align="center">CHỈNH SỬA CHỨC VỤ </h3>
+                <h3 align="center">THÊM LOẠI KHÁCH HÀNG</h3>
                 <fieldset>
-                    
+                  
                 <table>
                     <tr>
-                        <th>Mã chức vụ:</th>
-                        <td><input type="text" name="malnv" value="<?php echo $malnv?>"></td>
+                        <th> Mã loại:</th>
+                        <td><input type="text" name="maloaikh" value="" placeholder="KH0x"></td>
                     </tr>
                     <tr>
-                        <th>Tên chức vụ:</th>
-                        <td><input type="text" name="tenlnv" value="<?php echo $tenlnv?>"></td>
+                        <th> Tên loại:</th>
+                        <td><input type="text" name="loaikh" value="" placeholder="Bạc"></td>
                     </tr>
                     
-                    
+                   
                     
                 </table>
-                
                 </fieldset>
-             
+                
                 <div id="bt">
-                    <input name="Confirm" type="submit" value="Xác nhận"> &emsp; <input type="submit" name="Cancel" value="Hủy">
+                    <input name="Add" type="submit" value="Thêm" >&emsp;<input type="submit" name="Cancel" value="Hủy">
                 </div>
                 
             </form>

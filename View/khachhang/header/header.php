@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -27,16 +28,20 @@
             }
             li{
                 float: left;
+                width: 105px;
+                height: 55px;
             }
             li,a, .dropbtn{
+                
                 display: inline-block;
                 
                 text-align: center;
                 padding: 14px 16px;
                 text-decoration: none;
-                font-size: 15px;
+                font-size: 20px;
+                
             }
-            li:hover,.dropdown:hover .dropbtn{
+            a:hover, li:hover,.dropdown:hover .dropbtn{
                 background-color: #FFFF66;
                 
             }
@@ -56,6 +61,7 @@
                 
              
                 background-color: wheat ;
+                width: 100%;
             }
           
 
@@ -63,9 +69,12 @@
             list-style: none;
             float: left;
             }
-            ul li:last-child{
-            float: right;
-            
+            a:last-child{
+                float: right;
+            }
+            .logobank{
+                background-image: url("../image/logobank.png");
+                background-size: cover;
             }
 </style>
     </head>
@@ -76,31 +85,27 @@
         <div class="container">
             <nav>
             
-                
+                    
                     <ul>
-                        <li><img class="logobank" src="../image/logobank.png"></li>
-                        <li><a href="">Trang chủ</a></li>
-                        <li><a href="../nhanvien/nhanvien_index.php">Nhân viên</a></li>
-                
-                        <li><a href="../khachhang/khachhang_index.php">Khách Hàng</a></li>
-                        <li><a href="../hoadon/hoadon_index.php">Hóa đơn</a></li>
-                        <li><a href="../account/account_index.php">Account</a></li>
+                        <li class="logobank"></li>
+                        <a href="khachhang_index.php"><li>Trang chủ</li></a>
+                        <a href="guitien.php?id=<?php echo $_SESSION['makh']?>"><li>Chuyển tiền</li></a>
+                        <a href="hoadon.php?id=<?php echo $_SESSION['makh']?>"><li>Lịch sử giao dịch</li></a>
+                        <!-- <li><a href="../account/account_index.php">Account</a></li> -->
                         <?php
-                            if(isset($_SESSION["username"]))
+                            if(isset($_SESSION["makh"]))
                             {
-                            ?>
-                            <li class='dropdown'>
-                                    <!-- <a class='dropbtn'><img src='<?php ?>'></a> -->
-                                <div class='dropdown-content'>
-                                    <a href='../php/logout.php'>Logout</a>
+                          
+                            
+                                   
+                                
+                                 echo    "<a href='logout.php'><li>Logout</li></a>
     
-                                </div>
-                            </li>
-                            <?php
+                                
+                            </li>";
+                            
                             }
-                            else{
-                                echo "<li><a href=''>Login</a></li>";
-                            }
+                            
                         ?>
                         
                         

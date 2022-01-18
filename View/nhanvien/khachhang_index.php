@@ -1,7 +1,4 @@
-<?php
-session_start(); 
-//require_once "../php/check_username.php"
-?>
+<?php session_start();?>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -12,12 +9,13 @@ session_start();
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Trang chủ admin</title>
+        <title>Danh sách khách hàng</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
        
       
-<link rel="stylesheet" href="../../../include/css/index.css"> 
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../../include/css/index.css"> 
        <style>
            table{
                width: 900px;
@@ -33,13 +31,13 @@ session_start();
 
         <div id="containner">
             <div id="header">
-                <?php include "../header_footer/header.php"?>
+                <?php include "header/header.php"?>
             </div>
             <div id="body">
                 <!-- php getAll... -->
-                    <?php include"../../../Controller/getAllKhachHang.php"?>
+                    <?php include"../../Controller/getAllKhachHang.php"?>
                 <form id="form">
-                <a href="addKhachHang.php">Thêm khách hàng</a>
+                <a href="addKhachHang.php?id=<?php echo $_GET['id']?>">Thêm khách hàng</a>
 <table border="1px;" align="center">
 	<thead>
 		<tr>
@@ -80,9 +78,9 @@ session_start();
 
             
 			<td>
-                <a href="detailskhachhang.php?id=<?php echo $id;?>">Chi tiết</a>
-				<a href="editKhachHang.php?id=<?php echo $id;?>">Sửa</a>
-                <a href="deleteKhachHang.php?id=<?php echo $id;?>">Xóa</a>
+                <a href="detailskhachhang.php?id=<?php echo $_GET['id']?>&id_kh=<?php echo $id;?>">Chi tiết</a>
+				<a href="editKhachHang.php?id=<?php echo $_GET['id']?>&id_kh=<?php echo $id;?>">Sửa</a>
+                <a href="deleteKhachHang.php?id=<?php echo $_GET['id']?>&id_kh=<?php echo $id;?>">Xóa</a>
 				
 			</td>
 		</tr>

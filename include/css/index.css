@@ -1,0 +1,38 @@
+table {
+    background-color: snow;
+}
+
+a {
+    color: blue;
+}
+
+#container {
+    position: relative;
+    min-height: 100%;
+}
+
+#header {
+    height: 100px;
+}
+
+#body {
+    padding-bottom: 300px;
+}
+
+#form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    background-color: whitesmoke;
+    border-radius: 15px;
+}
+
+#bt {
+    display: flex;
+    justify-content: center;
+}
+
+h2 {
+    text-align: center;
+}

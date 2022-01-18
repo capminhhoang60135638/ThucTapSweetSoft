@@ -4,9 +4,9 @@ if(isset($_POST['Add']))
 {
     
 
-    include "../../../Controller/connect.php";
+    include "Controller/connect.php";
     
-    $sql_addkhachhang="INSERT INTO `khachhang`(`khachhang_ho`, `khachhang_ten`, `khachhang_ngaysinh`, `gioi_tinh`, `khachhang_sdt`, `sodu`) VALUES ('".$_POST['ho']."','".$_POST['ten']."','".$_POST['ngaysinh']."',b'".$_POST['gt']."','".$_POST['sdt']."','".$_POST['sodu']."')"; 
+    $sql_addkhachhang="INSERT INTO `khachhang`(`khachhang_ho`, `khachhang_ten`, `khachhang_ngaysinh`, `gioi_tinh`, `khachhang_sdt`, `sodu`) VALUES ('".$_POST['ho']."','".$_POST['ten']."','".$_POST['ngaysinh']."',b'".$_POST['gt']."','".$_POST['sdt']."','0')"; 
     
     
    
@@ -16,18 +16,18 @@ if(isset($_POST['Add']))
     $data = mysqli_fetch_array($query_makh);
     $makh=$data['khachhang_id'];
     
-    $sql_addlkh="insert into khachhang_loaikh(makh,maloaikh) values('$makh','".$_POST['lkh']."')";
+    $sql_addlkh="insert into khachhang_loaikh(makh,maloaikh) values('$makh','KH01')";
     mysqli_query($conn,$sql_addlkh);
 
 
 
     $sql_addtaikhoan="insert into taikhoan(ma_khachhang,password) values('".$makh."','".$_POST['pass']."')";
     mysqli_query($conn,$sql_addtaikhoan);
-
+    $_SESSION['makh_dk']=$makh;
     
 
     
-    header('Location: khachhang_index.php');
+    header('Location: login.php');
 
 
 
@@ -38,7 +38,7 @@ if(isset($_POST['Add']))
 }
 if(isset($_POST['Cancel']))
 {
-    header('Location: khachhang_index.php');
+    header('Location: login.php');
 }
 
 
@@ -56,8 +56,12 @@ if(isset($_POST['Cancel']))
         <title>Thêm khách hàng </title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="include/css/index.css">
         <style>
+           body{
+                background-image: url("View/image/backgroundbank.png");
+                background-size: cover;
+            }
             #container
             {
                 position: relative;
@@ -98,7 +102,7 @@ if(isset($_POST['Cancel']))
         <![endif]-->
         <div id="container">
         <div id="header">
-            <?php include "../header_footer/header.php"?>
+           
         </div>
         <div id="add">
             <form method="POST" action="" id="form_add">
@@ -128,29 +132,8 @@ if(isset($_POST['Cancel']))
                         <th>Số điện thoại:</th>
                         <td><input type="text" name="sdt" value="" ></td>
                     </tr>
-                    <tr>
-                        <th>Loại khách Hàng:</th>
-                        <td>
-                            <select name="lkh">
-                            <option value="" selected>---Chọn---</option>
-                            <?php 
-                                include "../../../Controller/getAllLoaiKhachHang.php";
-                                if (mysqli_num_rows($resultlkh) > 0) {
-                                    // output dữ liệu trên trang
-                                    while($row = $resultlkh->fetch_assoc()) {
-                                       
-                                        echo "<option value=".$row['maloaikh'].">".$row['tenloaikh']."</option>";
-                                        
-                                    }
-                                }
-                            ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Số tiền:</th>
-                        <td><input type="text" name="sodu" value="" ></td>
-                    </tr>
+                  
+                    
                    
                     
                 </table>
@@ -169,7 +152,7 @@ if(isset($_POST['Cancel']))
                     </table>
                 </fieldset>
                 <div id="bt">
-                    <input name="Add" type="submit" value="Thêm">&emsp; <input type="submit" name="Cancel" value="Hủy">
+                    <input name="Add" type="submit" value="Đăng ký">&emsp; <input type="submit" name="Cancel" value="Hủy">
                 </div>
                 
             </form>
